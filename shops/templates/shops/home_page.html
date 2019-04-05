@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<!-- Impoting Static files CSS/JS -->
+<header>
+  {% load staticfiles %}  
+  <link rel="stylesheet" href="{% static 'shops/bootstrap.min.css' %}" type = "text/css"/>
+  <link rel="stylesheet" href="{% static 'shops/css_form.css' %}" type = "text/css"/>
+  <link rel="stylesheet" href="{% static 'shops/shops_css.css' %}" type = "text/css"/>
+  <script src="{% static  'shops/js/shops.js' %}"></script>
+
+
+</header>
+
+<body>
+<!-- Login form -->
+{% if type == 'login_form1' and title == 'Login' %}
+
+<div class="container">
+<h2>{{title}}</h2>
+<hr/>
+
+<form method="POST" action="" enctype="multipart/form-data" >{% csrf_token%}
+	<label class="error">{{form.non_field_errors}}</label>
+	{{form.username}}
+	{{form.password}}
+	<button type="submit" class="btn btn-primary">login</button><br>
+	<label>You dont have account yet ? click Register Button </label> <a  href="/register/">register</a>
+</form>
+</div>
+<!-- End Login form -->
+<!-- Sign in form -->
+{% elif type == 'login_form1' and title == 'Register'  %}
+<div class="container">
+<h2>{{title}}</h2>
+<hr/>
+
+<form method="POST" action="" enctype="multipart/form-data" >{% csrf_token%}
+	<label class="error">{{form.errors.username}}</label>
+	{{form.username}} 
+	<label class="error">{{form.errors.email}}</label>
+	{{form.email}}
+	<label class="error">{{form.errors.email_conf}}</label>
+	{{form.email_conf}}
+	<label class="error">{{form.errors.password}}</label>
+	{{form.password}}
+	<button type="submit" class="btn btn-primary">login</button>
+</form>
+</div>
+<!-- End Sign in form -->
+
+<!-- Home page -->
+{% elif type == 'home' %}
+
+<b>welcome to your nearby shops App</b>
+<a class="btn btn-primary" href="/login/">login</a>
+<a class="btn btn-primary" href="/register/">register</a>
+
+<!--End Home page -->
+
+<!-- shops page after login -->
+
+{% elif type == 'shops' or type == 'login_form'  %}
+<div class="links">
+<a href="#" onclick="near_shops()">nearby shops</a> 
+<a href="#" onclick="prefred_shops()">My prefered shops</a>
+</div>
+<a class="btn btn-danger" href="/logout/" role="button">logout</a>
+<div id="near_shops" class="container" style="display: inline;">
+
+<!-- Nearby shops -->
+   <div class="container">
+     <div class="row">
+       
+        {% for key, value in shoops.items %}
+        {% if value == True %}  
+        <div class="col-xs-3 text-center" v-for="item in items">
+        <b>{{key.shop_name}}</b>
+        <img class="img-responsive" src="{% static 'shops/img/shop.png' %}" alt="">
+
+        <a href="#" class="btn btn-sm btn-danger" role="button">Dislike</a>
+        <a href="/like/{{key.id}}" class="btn btn-sm btn-primary" role="button">Like</a>
+       
+
+
+ 
+     	</div> {% endif %}
+    	{% endfor %}
+     </div>
+   </div>
+
+</div>
+   <!-- Nearby shops -->
+
+   <!-- My prefered shops -->
+<div id="pref_shops" class="container" style="display: none;">
+
+   <div class="container">
+     <div class="row">
+
+        {% for key, value in shoops.items %}
+        {% if value == False %}
+        <div class="col-xs-3 text-center" v-for="item in items">
+        <b>{{key.shop_name}}</b>
+        <img class="img-responsive" src="{% static 'shops/img/shop.png' %}" alt="">
+        
+     
+
+        <form action="/like/{{key.id}}" method="post">{% csrf_token %} 
+        <button  type="submit" class="btn btn-sm btn-danger">Remove</button>
+       </form>  
+       
+      </div> 
+      {% endif %}
+      {% endfor %}
+     </div>
+   </div>
+</div>
+<!-- My prefered shops -->
+
+{% endif %}
+
+<!--End shops page after login -->
+</body>
+</html>

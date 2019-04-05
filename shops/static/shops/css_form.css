@@ -1,0 +1,19 @@
+input{
+
+	display: block;
+    padding: 5px 15px;
+    margin-bottom:8px;
+
+	}
+.error{
+color:red;
+}
+
+.links {
+	float: right;
+}
+body{
+	background-image: url('img/bg_homee.png');
+	background-repeat: no-repeat;
+
+}
