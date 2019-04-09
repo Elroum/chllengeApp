@@ -1,4 +1,4 @@
-This project works with Django 1.11;  Python 3.6;  Postgres and pgAdmin 4.2
+This project works with Django 1.11;  Python 3.6;  PostgreSQL and pgAdmin 4.2
 
 Informations about Project Structure : 
 the project contains Two apps : accounts & shops
