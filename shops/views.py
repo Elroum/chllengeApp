@@ -13,13 +13,16 @@ def home(request):
 def shops(request):
 
 	if request.user.is_active :
-		print("home")
 		table_likes={}
+		#select all shops here
 		s=shop_model2.objects.all()
 		for x in s:
+			#nearby shops that are not liked 
 			if not x.likes.filter(id=request.user.id).exists():
+				print("likes")
 				is_likd=True
-			else :
+			#nearby liked shops of this user
+			else :  
 				is_likd=False
 			table_likes[x]=is_likd
 		context={"shoops":table_likes,"type":"shops"}
@@ -28,8 +31,8 @@ def shops(request):
 		print("not logged")
 		return redirect('/')
 
+#if user liked a shop 
 def like_shop(request,id):
-	#s_id=request.POST.get('shop_id') 
 	is_liked=False
 	sho=get_object_or_404(shop_model2, id=id)
 	if not sho.likes.filter(id=request.user.id).exists():
@@ -39,7 +42,6 @@ def like_shop(request,id):
 	else:
 		sho.likes.remove(request.user.id)
 
-	#print(is_liked)
 	return HttpResponseRedirect('/shops/')
 
 
